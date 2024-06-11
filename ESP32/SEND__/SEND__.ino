@@ -39,11 +39,18 @@ void setup() {
   
   MIDI.setHandleNoteOn([](byte channel, byte note, byte velocity) {
     Serial.print("NoteON: CH: ");
-    digitalWrite(LED_BUILTIN, LOW);
+    Serial.print(channel);
+    Serial.print(" | ");
+    Serial.print(note);
+    Serial.print(", ");
+    Serial.println(velocity);
+    DIN_MIDI.sendNoteOn(note, velocity, channel);
+    // digitalWrite(LED_BUILTIN, LOW);
   });
 
   MIDI.setHandleNoteOff([](byte channel, byte note, byte velocity) {
     digitalWrite(LED_BUILTIN, HIGH);
+    DIN_MIDI.sendNoteOff(note, 0, channel);
   });
 
 
@@ -51,13 +58,5 @@ void setup() {
 void loop() {
 
    MIDI.read();
-  // Serial0.print('1');
-  // delay(1000);
-  // Serial0.print('0');
-  // delay(700);
-  // DIN_MIDI.sendNoteOn(60, 127, 1);
-  // delay(3000);
-  // DIN_MIDI.sendNoteOff(60, 127, 1);
-  // delay(300);
 
 }
